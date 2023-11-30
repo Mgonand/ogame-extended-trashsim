@@ -1,13 +1,16 @@
 {
-  "name": "Extended TrashSim",
-  "description": "Add some features to TrashSim like deuterium to debris.",
-  "version": "1.0",
+  "name": "Ogame Extended TrashSim",
+  "description": "Add some features to Ogame TrashSim like deuterium to debris.",
+  "version": "1.0.0",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
   },
+  "icons": {
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
   "permissions": [],
-  "host_permissions": ["https://trashsim.oplanet.eu/*"],
   "content_scripts": [
     {
       "matches": ["https://trashsim.oplanet.eu/*"],

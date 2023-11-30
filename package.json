@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "copy-manifest": "cp manifest.json dist/manifest.json",
-    "build": "rm -rf dist && mkdir dist && tsc && npm run copy-manifest",
-    "watch": "rm -rf dist && mkdir dist && npm run copy-manifest && tsc -w"
+    "copy-files": "cp manifest.json dist/manifest.json && cp icon48.png dist/icon48.png && cp icon128.png dist/icon128.png",
+    "build": "rm -rf dist && mkdir dist && tsc && npm run copy-files",
+    "watch": "rm -rf dist && mkdir dist && npm run copy-files && tsc -w",
+    "package": "npm run build && cd dist && zip -r ../dist.zip . && cd .."
   },
   "keywords": [],
   "author": "",
