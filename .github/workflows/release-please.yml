@@ -27,6 +27,11 @@ jobs:
           node-version: 18
       - run: npm ci
         if: ${{ steps.release.outputs.release_created }}
+      - run: |
+          node updateManifest.mjs
+        env:
+          RELEASE_VERSION: ${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}.${{ steps.release.outputs.patch }}
+        if: ${{ steps.release.outputs.release_created }}
       - run: npm run package
         if: ${{ steps.release.outputs.release_created }}
       - name: Publish to Chrome Web Store
@@ -34,7 +39,7 @@ jobs:
         uses: mnao305/chrome-extension-upload@v4.0.1
         with:
           file-path: dist.zip
-          extension-id: hogefuga(extension id)
+          extension-id: npffkekfkkdphkbleloephpjdiabicbn
           client-id: ${{ secrets.CHROME_STORE_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_STORE_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_STORE_REFRESH_TOKEN }}
