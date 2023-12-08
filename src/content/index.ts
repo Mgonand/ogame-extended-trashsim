@@ -3,10 +3,12 @@ import type {
   EntityInfo,
   Settings,
   Parties,
+  ResultsTotalScope,
 } from '../model/common';
-import type { Result } from '../model/result';
+import type { Result, Simulation } from '../model/result';
 import {
   updateDeuteriumDebrisRow,
+  updateResultsTotalDeuteriumDebrisRow,
   updateTotalRecyclers,
 } from './deuteriumToDebris/html.js';
 import { calculateDebris } from './deuteriumToDebris/index.js';
@@ -85,6 +87,29 @@ export function main() {
       simulatorScope.$watch<Parties>('parties', function (parties) {
         if (parties) {
           updateParties(parties);
+        }
+      });
+      let wavesLengthWatcher: (() => void) | undefined;
+      simulatorScope.$watch<number>('waves.length', function (wavesLength) {
+        if (wavesLengthWatcher) {
+          wavesLengthWatcher();
+        }
+        if (wavesLength > 0) {
+          const controllerResultsTotalElement =
+            document.querySelector('#results-total');
+          if (controllerResultsTotalElement) {
+            const controllerResultsTotalScope = window.angular
+              .element(controllerResultsTotalElement)
+              .scope<ResultsTotalScope>();
+            wavesLengthWatcher = controllerResultsTotalScope.$watch<Simulation>(
+              'resultsTotal',
+              function (simulation) {
+                if (simulation) {
+                  updateResultsTotalDeuteriumDebrisRow(simulation.debris);
+                }
+              },
+            );
+          }
         }
       });
       simulatorScope.$watch<Result>('result', function (result) {

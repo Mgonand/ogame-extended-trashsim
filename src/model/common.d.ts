@@ -92,3 +92,7 @@ export interface SimulatorScope extends IScope {
   getCargoCapacityForEntity(shipId: number): number;
   getNecessaryRecyclers(simulation: Simulation, overall?: boolean): number;
 }
+
+export interface ResultsTotalScope extends IScope {
+  resultsTotal: Simulation;
+}

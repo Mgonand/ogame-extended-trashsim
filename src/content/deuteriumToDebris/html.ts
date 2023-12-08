@@ -10,6 +10,16 @@ function getPlanetDebrisTable() {
   throw new Error('Could not find planet debris table');
 }
 
+function getResultsTotalPlanetDebrisTable() {
+  const element = document.querySelectorAll(
+    '#results-total .results-tables .result-table table',
+  )[2];
+  if (element) {
+    return element as HTMLTableElement;
+  }
+  throw new Error('Could not find planet debris table');
+}
+
 function getResultTableDebris() {
   const element = document.querySelectorAll(
     '.result-table-debris.result-table table',
@@ -36,8 +46,13 @@ function updateElementTextContent(element: Element, text: string | number) {
   }
 }
 
-function updateDeuteriumDebrisRowToPlanetTable(debrisDeuterium: number = 0) {
-  const planetDebrisTable = getPlanetDebrisTable();
+function updateDeuteriumDebrisRowToPlanetTable(
+  debrisDeuterium: number = 0,
+  planetDebrisTable: HTMLTableElement = getPlanetDebrisTable(),
+) {
+  if (isNaN(debrisDeuterium)) {
+    debrisDeuterium = 0;
+  }
   let deuteriumDebrisRow = planetDebrisTable.querySelector(
     'tbody tr td div.resource-deuterium',
   );
@@ -81,6 +96,15 @@ function updateDeuteriumDebrisRowToResultTable(
   attackersMinedDeuterium: number = 0,
   defendersMinedDeuterium: number = 0,
 ) {
+  if (isNaN(initialDeuterium)) {
+    initialDeuterium = 0;
+  }
+  if (isNaN(attackersMinedDeuterium)) {
+    attackersMinedDeuterium = 0;
+  }
+  if (isNaN(defendersMinedDeuterium)) {
+    defendersMinedDeuterium = 0;
+  }
   const resultDebrisTable = getResultTableDebris();
   const existsDeuteriumDiv = resultDebrisTable.querySelector(
     'tbody tr td div.resource-deuterium',
@@ -154,4 +178,13 @@ export function updateTotalRecyclers(
   if (totalRecyclersRow) {
     updateElementTextContent(totalRecyclersRow, totalRecyclers);
   }
+}
+
+export function updateResultsTotalDeuteriumDebrisRow(
+  debris?: Simulation['debris'],
+) {
+  updateDeuteriumDebrisRowToPlanetTable(
+    debris?.remaining.deuterium,
+    getResultsTotalPlanetDebrisTable(),
+  );
 }
