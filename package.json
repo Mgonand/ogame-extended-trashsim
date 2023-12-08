@@ -25,7 +25,7 @@
     "prettier": "^3.1.0",
     "prettier-eslint": "^16.1.2",
     "ts-loader": "^9.5.1",
-    "typescript": "^5.3.2",
+    "typescript": "^5.3.3",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
   },
